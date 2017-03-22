@@ -1,5 +1,8 @@
 #!/bin/bash
-#Refer to http://www.runoob.com/nodejs/nodejs-tutorial.html
+#Refer to:
+#http://www.runoob.com/nodejs/nodejs-tutorial.html
+#http://www.w3school.com.cn/html5/index.asp
+
 
 #Check distribution version
 apt-get -h 2>/dev/null
