@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<script type="text/javascript">
+function myclick(){
+	alert("Hello, World!");
+}
+
+function mykeydown(e)
+{
+	var keynum;
+	var keychar;
+	
+	keynum = window.event ? e.keyCode : e.which;
+	keychar = String.fromCharCode(keynum);
+	//alert(keynum+':'+keychar);
+	if (keynum == lastkey)
+		a++;
+	else 
+		a = 1;
+	a = 1;
+	lastkey = keynum;
+
+	if (37 == keynum)
+		x -= a;
+	else if (38 == keynum)
+		y -= a;
+	else if (39 == keynum)
+		x += a;
+	else if (40 == keynum)
+		y += a;
+
+	cxt.drawImage(img,x,y);
+}
+
+
+function hiclick(){
+//alert("Hello!");
+}
+</script>
+<body onkeydown="return mykeydown(event)" onload="document.formname.textname.focus()">
+
+<canvas id="myCanvas" width="800" height="600" style="border:1px solid #c3c3c3;" onclick="hiclick()">
+Your browser does not support the canvas element.
+</canvas>
+
+<script type="text/javascript">
+var img=new Image()
+img.src="/car.png"
+var c=document.getElementById("myCanvas");
+var cxt=c.getContext("2d");
+var x=0, y=0, a=1, lastkey=0;
+</script>
+
+</body>
+</html>
