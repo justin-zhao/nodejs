@@ -1,15 +1,14 @@
 <!DOCTYPE HTML>
 <html>
 <script type="text/javascript">
-function myclick(){
-	alert("Hello, World!");
+function iClick(){
+	//alert("Hello, World!");
+	//if (confirm("Are you OK?"))
+	//else
 }
 
-function mykeydown(e)
+function iKeydown(e)
 {
-	var keynum;
-	var keychar;
-	
 	keynum = window.event ? e.keyCode : e.which;
 	keychar = String.fromCharCode(keynum);
 	//alert(keynum+':'+keychar);
@@ -32,23 +31,25 @@ function mykeydown(e)
 	cxt.drawImage(img,x,y);
 }
 
-
-function hiclick(){
-//alert("Hello!");
+function iLoad(){
+	cxt.drawImage(img,x,y);
 }
 </script>
-<body onkeydown="return mykeydown(event)" onload="document.formname.textname.focus()">
+<body onkeydown="return iKeydown(event)" onload="document.formname.textname.focus()">
 
-<canvas id="myCanvas" width="800" height="600" style="border:1px solid #c3c3c3;" onclick="hiclick()">
+<canvas id="myCanvas" width="800" height="600" style="border:1px solid #c3c3c3;" onclick="iClick()">
 Your browser does not support the canvas element.
 </canvas>
 
 <script type="text/javascript">
-var img=new Image()
+img=new Image();
 img.src="/car.png"
-var c=document.getElementById("myCanvas");
-var cxt=c.getContext("2d");
-var x=0, y=0, a=1, lastkey=0;
+c=document.getElementById("myCanvas");
+cxt=c.getContext("2d");
+x=0, y=0, a=1, lastkey=0;
+
+img.onload = iLoad;
+//setTimeout(myload, 200);
 </script>
 
 </body>
