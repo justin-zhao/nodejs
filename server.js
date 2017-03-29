@@ -5,6 +5,9 @@ var fs = require('fs');
 http.createServer(function (request, response) {
 	var pathname = url.parse(request.url).pathname;
 	//console.log("Request for " + pathname + " received. method=" + request.method);
+
+	if (pathname == "/")
+		pathname = "/index.h5";
 	
 	if (request.method == "GET")
 	{

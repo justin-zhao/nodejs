@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<script type="text/javascript">
+function iClick(){
+	//alert("Hello, World!");
+	//if (confirm("Are you OK?"))
+	//else
+}
+
+function iKeydown(e)
+{
+	var xx=x, yy=y, ww=img.width, hh=img.height;
+	keynum = window.event ? e.keyCode : e.which;
+	keychar = String.fromCharCode(keynum);
+	//alert(keynum+':'+keychar);
+	if (keynum == lastkey)
+		a++;
+	else 
+		a = 1;
+	if (a > 10) a = 10;
+	lastkey = keynum;
+//	alert("width="+img.width+",height="+img.height);
+
+	if (37 == keynum)
+	{
+		x -= a;
+		xx = x+img.width;
+		ww = a;
+	}
+	else if (38 == keynum)
+	{
+		y -= a;
+		yy = y+img.height;
+		hh = a;
+	}
+	else if (39 == keynum)
+	{
+		ww = a;
+		x += a;
+	}
+	else if (40 == keynum)
+	{
+		hh = a;
+		y += a;
+	}
+	cxt.fillStyle="#FFFFFF";
+	cxt.fillRect(xx,yy,ww,hh);
+
+	cxt.drawImage(img,x,y);
+}
+
+function iLoad(){
+	cxt.drawImage(img,x,y);
+}
+</script>
+<body onkeydown="return iKeydown(event)" onload="document.formname.textname.focus()">
+
+<canvas id="myCanvas" width="800" height="600" style="border:1px solid #c3c3c3;" onclick="iClick()">
+Your browser does not support the canvas element.
+</canvas>
+
+<script type="text/javascript">
+img=new Image();
+img.src="/car.png"
+c=document.getElementById("myCanvas");
+cxt=c.getContext("2d");
+x=0, y=0, a=1, lastkey=0;
+
+img.onload = iLoad;
+
+//document.write("<script language='javascript' src='one.js'></script>");
+//setTimeout(myload, 200);
+</script>
+
+</body>
+</html>
