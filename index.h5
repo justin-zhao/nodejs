@@ -13,11 +13,12 @@ function refreshWin()
 
 	var curp = pos;
 
-	while(curp < 600)
+	while(curp < c.height)
 	{
-		cxt.drawImage(road,(800-road.width)/2,curp);
+		cxt.drawImage(road,(c.width-road.width)/2,curp);
 		curp += road.height;
 	}
+
 	cxt.drawImage(car,x,y);
 }
 
@@ -26,6 +27,34 @@ function timeFresh()
 	pos += a;
 	if (pos>0)
 		pos -= road.height;
+
+	y -= ca;
+
+	car.src = "car0.png";
+	if (37 == keynum) //left
+	{
+		x -= Math.abs(ca);
+		car.src = "car1.png";
+	}
+	else if (39 == keynum) //right
+	{
+		x += Math.abs(ca);
+		car.src = "car2.png";
+	}
+
+	if(y<0)
+	{
+		y = 0;
+		ca = 0
+	}
+
+	if(y>c.height-car.height)
+	{
+		y = c.height-car.height;
+		ca = 0;
+	}
+	x = (x<c.width/2-105)? c.width/2-105:x;
+	x = (x>c.width/2+15)? c.width/2+15:x;
 
 	refreshWin();
 }
@@ -36,66 +65,44 @@ function iKeydown(e)
 	keynum = window.event ? e.keyCode : e.which;
 	keychar = String.fromCharCode(keynum);
 	//alert(keynum+':'+keychar);
+
+	if (keynum == 27) document.cancelFullScreen(); //esc
+
 	if (keynum == lastkey)
 	{
-		if (38 == keynum) a++;
-		if (40 == keynum) a--;
-		a = (a>10)? 10:a;
-		a = (a<1)? 1:a;
-		ca++;
+		if (38 == keynum) //up
+		{
+			ca += 0.5;
+			a++;
+		}
+		if (40 == keynum) //down
+		{
+			ca -= 0.5;
+			a--;
+		}
 	}
-	else 
-		ca = 1;
 
-	if (a > 10) a = 10;
+	a = (a > 10)? 10:a;
+	a = (a < 1)? 1:a;
+	ca = (ca > 5)? 5:ca;
+	ca = (ca < -5)? -5:ca;
 	lastkey = keynum;
+//if (ca>0) yy = y+car.height; 
 //	alert("width="+car.width+",height="+car.height);
-	car.src = "car0.png";
 
-	if (37 == keynum)
-	{
-		x -= ca;
-		xx = x+car.width;
-		ww = ca;
-		car.src = "car1.png";
-	}
-	else if (38 == keynum)
-	{
-		y -= ca;
-		yy = y+car.height;
-		hh = ca;
-	}
-	else if (39 == keynum)
-	{
-		ww = ca;
-		x += ca;
-		car.src = "car2.png";
-	}
-	else if (40 == keynum)
-	{
-		hh = ca;
-		y += ca;
-	}
-
-	y = (y<0)? 0:y;
-	y = (y>600-car.height)? 600-car.height:y;
-	x = (x<295)? 295:x;
-	x = (x>405)? 405:x;
 	//cxt.fillStyle="#FFFFFF";
 	//cxt.fillRect(xx,yy,ww,hh);
-
-	//refreshWin();
 }
 
 function iKeyup(e)
 {
-	car.src = "car0.png";
-	cxt.drawImage(car,x,y);
+	keynum = 0;
 }
 
 function iLoad(){
 	pos = -road.height;
 	refreshWin();
+	setInterval(timeFresh, 50);
 }
 </script>
 <body onkeydown="return iKeydown(event)" onkeyup="return iKeyup(event)" onload="document.formname.textname.focus()">
@@ -105,23 +112,25 @@ Your browser does not support the canvas element.
 </canvas>
 
 <script type="text/javascript">
+//document.getElementById("myCanvas").requestFullScreen();
+var keynum=0;
+c=document.getElementById("myCanvas");
 var pos=0;
 var car=new Image();
 for (i=2;i>=0;i--)
-{
 	car.src="/car"+i+".png";
-}
 
 var road=new Image();
 road.src="road.png";
 road.onload = iLoad;
-c=document.getElementById("myCanvas");
 cxt=c.getContext("2d");
-x=365, y=300, a=1, ca=1, lastkey=0;
+x=c.width/2;
+y=c.height/2;
+a=1, ca=0, lastkey=0;
 
 //document.write("<script language='javascript' src='one.js'><script>");
 //setTimeout(drawBk, 50);
-setInterval(timeFresh, 50);
+//setInterval(timeFresh, 50);
 </script>
 
 </body>
