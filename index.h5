@@ -7,69 +7,121 @@ function iClick(){
 	//else
 }
 
+function refreshWin()
+{
+	if (road.width == 0) return;
+
+	var curp = pos;
+
+	while(curp < 600)
+	{
+		cxt.drawImage(road,(800-road.width)/2,curp);
+		curp += road.height;
+	}
+	cxt.drawImage(car,x,y);
+}
+
+function timeFresh()
+{
+	pos += a;
+	if (pos>0)
+		pos -= road.height;
+
+	refreshWin();
+}
+
 function iKeydown(e)
 {
-	var xx=x, yy=y, ww=img.width, hh=img.height;
+	var xx=x, yy=y, ww=car.width, hh=car.height;
 	keynum = window.event ? e.keyCode : e.which;
 	keychar = String.fromCharCode(keynum);
 	//alert(keynum+':'+keychar);
 	if (keynum == lastkey)
-		a++;
+	{
+		if (38 == keynum) a++;
+		if (40 == keynum) a--;
+		a = (a>10)? 10:a;
+		a = (a<1)? 1:a;
+		ca++;
+	}
 	else 
-		a = 1;
+		ca = 1;
+
 	if (a > 10) a = 10;
 	lastkey = keynum;
-//	alert("width="+img.width+",height="+img.height);
+//	alert("width="+car.width+",height="+car.height);
+	car.src = "car0.png";
 
 	if (37 == keynum)
 	{
-		x -= a;
-		xx = x+img.width;
-		ww = a;
+		x -= ca;
+		xx = x+car.width;
+		ww = ca;
+		car.src = "car1.png";
 	}
 	else if (38 == keynum)
 	{
-		y -= a;
-		yy = y+img.height;
-		hh = a;
+		y -= ca;
+		yy = y+car.height;
+		hh = ca;
 	}
 	else if (39 == keynum)
 	{
-		ww = a;
-		x += a;
+		ww = ca;
+		x += ca;
+		car.src = "car2.png";
 	}
 	else if (40 == keynum)
 	{
-		hh = a;
-		y += a;
+		hh = ca;
+		y += ca;
 	}
-	cxt.fillStyle="#FFFFFF";
-	cxt.fillRect(xx,yy,ww,hh);
 
-	cxt.drawImage(img,x,y);
+	y = (y<0)? 0:y;
+	y = (y>600-car.height)? 600-car.height:y;
+	x = (x<295)? 295:x;
+	x = (x>405)? 405:x;
+	//cxt.fillStyle="#FFFFFF";
+	//cxt.fillRect(xx,yy,ww,hh);
+
+	//refreshWin();
+}
+
+function iKeyup(e)
+{
+	car.src = "car0.png";
+	cxt.drawImage(car,x,y);
 }
 
 function iLoad(){
-	cxt.drawImage(img,x,y);
+	pos = -road.height;
+	refreshWin();
 }
 </script>
-<body onkeydown="return iKeydown(event)" onload="document.formname.textname.focus()">
+<body onkeydown="return iKeydown(event)" onkeyup="return iKeyup(event)" onload="document.formname.textname.focus()">
 
 <canvas id="myCanvas" width="800" height="600" style="border:1px solid #c3c3c3;" onclick="iClick()">
 Your browser does not support the canvas element.
 </canvas>
 
 <script type="text/javascript">
-img=new Image();
-img.src="/car.png"
+var pos=0;
+var car=new Image();
+for (i=2;i>=0;i--)
+{
+	car.src="/car"+i+".png";
+}
+
+var road=new Image();
+road.src="road.png";
+road.onload = iLoad;
 c=document.getElementById("myCanvas");
 cxt=c.getContext("2d");
-x=0, y=0, a=1, lastkey=0;
+x=365, y=300, a=1, ca=1, lastkey=0;
 
-img.onload = iLoad;
-
-//document.write("<script language='javascript' src='one.js'></script>");
-//setTimeout(myload, 200);
+//document.write("<script language='javascript' src='one.js'><script>");
+//setTimeout(drawBk, 50);
+setInterval(timeFresh, 50);
 </script>
 
 </body>
