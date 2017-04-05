@@ -11,12 +11,14 @@ function refreshWin()
 {
 	if (road.width == 0) return;
 
+	var i=0;
 	var curp = pos;
 
 	while(curp < c.height)
 	{
 		cxt.drawImage(road,(c.width-road.width)/2,curp);
 		curp += road.height;
+		i++;
 	}
 
 	cxt.drawImage(car,x,y);
@@ -72,12 +74,12 @@ function iKeydown(e)
 	{
 		if (38 == keynum) //up
 		{
-			ca += 0.5;
+			ca += 0.1;
 			a++;
 		}
 		if (40 == keynum) //down
 		{
-			ca -= 0.5;
+			ca -= 0.1;
 			a--;
 		}
 	}
