@@ -32,17 +32,26 @@ function timeFresh()
 
 	y -= ca;
 
-	carpic.src = "car0.png";
 	if (37 == keynum) //left
 	{
 		x -= Math.abs(ca);
-		carpic.src = "car1.png";
 	}
 	else if (39 == keynum) //right
 	{
 		x += Math.abs(ca);
-		carpic.src = "car2.png";
 	}
+
+    switch(car.d)
+    {
+        case -1:
+		    carpic.src = "car1.png";
+            break;
+        case 1:
+		    carpic.src = "car2.png";
+            break;
+        default:
+		    carpic.src = "car0.png";
+    }
 
 	if(y<0)
 	{
@@ -69,6 +78,17 @@ function iKeydown(e)
 	//alert(keynum+':'+keychar);
 
 	if (keynum == 27) document.cancelFullScreen(); //esc
+
+	if (37 == keynum) //left
+	{
+        car.d -= 1;
+        if (car.d < -1) car.d = -1;
+	}
+	else if (39 == keynum) //right
+	{
+        car.d += 1;
+        if (car.d > 1) car.d = 1;
+	}
 
 	if (keynum == lastkey)
 	{
