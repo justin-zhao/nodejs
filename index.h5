@@ -98,7 +98,9 @@ function iKeydown(e)
 
 function iKeyup(e)
 {
-	keynum = 0;
+    if (lastkey != keynum)
+        keynum = 0;
+    //console.log("keyup");
 }
 
 function iLoad(){
@@ -107,7 +109,7 @@ function iLoad(){
 	setInterval(timeFresh, 50);
 }
 </script>
-<body onkeydown="return iKeydown(event)" onkeyup="return iKeyup(event)" onload="document.formname.textname.focus()">
+<body onkeydown="return iKeydown(event)" onkeyup="return iKeyup(event)" onload="">
 
 <canvas id="myCanvas" width="800" height="600" style="border:1px solid #c3c3c3;" onclick="iClick()">
 Your browser does not support the canvas element.
