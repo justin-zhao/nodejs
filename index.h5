@@ -9,39 +9,39 @@ function iClick(){
 
 function refreshWin()
 {
-	if (road.width == 0) return;
+	if (roadpic.width == 0) return;
 
 	var i=0;
 	var curp = pos;
 
 	while(curp < c.height)
 	{
-		cxt.drawImage(road,(c.width-road.width)/2,curp);
-		curp += road.height;
+		cxt.drawImage(roadpic,(c.width-roadpic.width)/2,curp);
+		curp += roadpic.height;
 		i++;
 	}
 
-	cxt.drawImage(car,x,y);
+	cxt.drawImage(carpic,x,y);
 }
 
 function timeFresh()
 {
 	pos += a;
 	if (pos>0)
-		pos -= road.height;
+		pos -= roadpic.height;
 
 	y -= ca;
 
-	car.src = "car0.png";
+	carpic.src = "car0.png";
 	if (37 == keynum) //left
 	{
 		x -= Math.abs(ca);
-		car.src = "car1.png";
+		carpic.src = "car1.png";
 	}
 	else if (39 == keynum) //right
 	{
 		x += Math.abs(ca);
-		car.src = "car2.png";
+		carpic.src = "car2.png";
 	}
 
 	if(y<0)
@@ -50,9 +50,9 @@ function timeFresh()
 		ca = 0
 	}
 
-	if(y>c.height-car.height)
+	if(y>c.height-carpic.height)
 	{
-		y = c.height-car.height;
+		y = c.height-carpic.height;
 		ca = 0;
 	}
 	x = (x<c.width/2-105)? c.width/2-105:x;
@@ -63,7 +63,7 @@ function timeFresh()
 
 function iKeydown(e)
 {
-	var xx=x, yy=y, ww=car.width, hh=car.height;
+	var xx=x, yy=y, ww=carpic.width, hh=carpic.height;
 	keynum = window.event ? e.keyCode : e.which;
 	keychar = String.fromCharCode(keynum);
 	//alert(keynum+':'+keychar);
@@ -89,8 +89,8 @@ function iKeydown(e)
 	ca = (ca > 5)? 5:ca;
 	ca = (ca < -5)? -5:ca;
 	lastkey = keynum;
-//if (ca>0) yy = y+car.height; 
-//	alert("width="+car.width+",height="+car.height);
+//if (ca>0) yy = y+carpic.height; 
+//	alert("width="+carpic.width+",height="+carpic.height);
 
 	//cxt.fillStyle="#FFFFFF";
 	//cxt.fillRect(xx,yy,ww,hh);
@@ -104,10 +104,16 @@ function iKeyup(e)
 }
 
 function iLoad(){
-	pos = -road.height;
+	pos = -roadpic.height;
 	refreshWin();
 	setInterval(timeFresh, 50);
 }
+
+function _tagcar(){
+    this.v = 1; //car speed
+    this.d = 0; //direction
+}
+
 </script>
 <body onkeydown="return iKeydown(event)" onkeyup="return iKeyup(event)" onload="">
 
@@ -120,19 +126,19 @@ Your browser does not support the canvas element.
 var keynum=0;
 c=document.getElementById("myCanvas");
 var pos=0;
-var car=new Image();
+var carpic=new Image();
 for (i=2;i>=0;i--)
-	car.src="/car"+i+".png";
+	carpic.src="/car"+i+".png";
 
-var road=new Image();
-road.src="road.png";
-road.onload = iLoad;
+var roadpic=new Image();
+roadpic.src="road.png";
+roadpic.onload = iLoad;
 cxt=c.getContext("2d");
 x=c.width/2;
 y=c.height/2;
 a=1, ca=0, lastkey=0;
-
-//document.write("<script language='javascript' src='one.js'><script>");
+var car = new _tagcar();
+//document.write("<script language='javascrip1t' src='one.js'><script>");
 //setTimeout(drawBk, 50);
 //setInterval(timeFresh, 50);
 </script>
